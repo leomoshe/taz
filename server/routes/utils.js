@@ -9,8 +9,8 @@ function saveRecords(table, data) {
 }
 
 function getRecords(table) {
-    let data = '[]';
-    let fileName = path.join(__dirname, '..', 'db', table + '.json')
+    let data = [];
+    const fileName = path.join(__dirname, '..', 'db', table + '.json')
     
     try {
         data = fs.readFileSync(fileName);
@@ -22,24 +22,26 @@ function getRecords(table) {
 }
 
 function getRecord(table, id) {
-    const data = getRecords(table);
-    let record = data.find(item => item.id === id);
+    const records = getRecords(table);
+    const record = records.find(item => item.id === id);
     return record;
 }
 
-function addRecord(table, item) {
-    const data = getRecords(table);
-    data.push(item);
-    saveRecords(table, data);
+function addRecord(table, data) {
+    const records = getRecords(table);
+    records.splice(records.findIndex(function(item){
+        return item.id === data.id;
+    }), 1);
+    records.push(data);
+    saveRecords(table, records);
 }
 
 function removeRecord(table, id) {
-    const data = getRecords(table);
-    let record = data.find(item => item.id === id);
-    data.splice(items.findIndex(function(item){
+    const records = getRecords(table);
+    records.splice(records.findIndex(function(item){
         return item.id === id;
     }), 1);
-    saveRecords(table, data);
+    saveRecords(table, records);
 }
 
 module.exports = {
