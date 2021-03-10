@@ -27,8 +27,11 @@ router.post('/:id', function (req, res) {
 
 router.delete('/:id', function (req, res) {
     const id = req.params['id'];
-    utils.removeRecord('user', parseInt(id));
-    res.end("removed");
+    if (utils.removeRecord('user', parseInt(id))) {
+        res.end("removed");
+    } else {
+        res.end("doesn't exist");
+    }
 });
 
 module.exports = router;

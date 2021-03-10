@@ -27,21 +27,32 @@ function getRecord(table, id) {
     return record;
 }
 
+function removeRecordFromContainer(container, id){
+    let idx = -1;
+    try {
+        idx = container.findIndex(item => item.id === id);
+    } catch {}
+    if (idx > -1) {
+        container.splice(idx, 1); 
+        return true;
+    }
+    return false;
+}
+
 function addRecord(table, data) {
     const records = getRecords(table);
-    records.splice(records.findIndex(function(item){
-        return item.id === data.id;
-    }), 1);
+    removeRecordFromContainer(records, data.id);
     records.push(data);
     saveRecords(table, records);
 }
 
 function removeRecord(table, id) {
     const records = getRecords(table);
-    records.splice(records.findIndex(function(item){
-        return item.id === id;
-    }), 1);
-    saveRecords(table, records);
+    if (removeRecordFromContainer(records, id)) {
+        saveRecords(table, records);
+        return true;
+    }
+    return false;
 }
 
 module.exports = {

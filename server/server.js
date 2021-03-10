@@ -4,8 +4,9 @@ const express = require('express');
 const app = express();
 const bodyParser = require("body-parser");
 const port = process.env.PORT || 8080; // set in package.json to 3100. I don't know why 8080 is here'
-//const mainRouter = require('./routes/main')
+const mainRouter = require('./routes/main')
 const userRouter = require('./routes/user')
+const apiRouter = require('./routes/api')
 
 //Here we are configuring express to use body-parser as middle-ware.
 // https://www.digitalocean.com/community/tutorials/use-expressjs-to-get-url-and-post-parameters
@@ -17,8 +18,9 @@ app.use(function timeLog (req, res, next) {
     console.log('Time: ', Date.now());
     next();
 });
-//app.use('/', mainRouter);
+app.use('/', mainRouter);
 app.use('/user', userRouter);
+app.use('/api', apiRouter);
 
 app.route('/echo')
     .all((req,res)=>{
