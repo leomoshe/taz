@@ -3,6 +3,7 @@
 const express = require('express');
 const router = new express.Router();
 
+// $ curl -X GET http://localhost:8080/api
 router.get('/', function (req, res) {
     const data = {
         "user": {
