@@ -2,6 +2,7 @@
 
 const fs = require('fs');
 const path = require('path');
+const { validationResult } = require('express-validator')
 
 function saveRecords(table, data) {
     let fileName = path.join(__dirname, '..', 'db', table + '.json')
@@ -55,9 +56,23 @@ function removeRecord(table, id) {
     return false;
 }
 
+const validateRules = (req, res, next) => {
+    const errors = validationResult(req)
+    if (errors.isEmpty()) {
+        return next()
+    }
+    const extractedErrors = []
+    errors.array().map(err => extractedErrors.push({ [err.param]: err.msg }))
+  
+    return res.status(422).json({
+        errors: extractedErrors,
+    })
+}
+
 module.exports = {
     getRecords: getRecords,
     getRecord: getRecord,
     addRecord: addRecord,
-    removeRecord: removeRecord
+    removeRecord: removeRecord,
+    validateRules: validateRules
 };

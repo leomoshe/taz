@@ -8,6 +8,8 @@ const mainRouter = require('./routes/main')
 const userRouter = require('./routes/user')
 const apiRouter = require('./routes/api')
 
+console.log(`Node version: ${process.version}`)
+
 //Here we are configuring express to use body-parser as middle-ware.
 // https://www.digitalocean.com/community/tutorials/use-expressjs-to-get-url-and-post-parameters
 app.use(bodyParser.urlencoded({ extended: true }));  // support encoded bodies
