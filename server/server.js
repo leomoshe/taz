@@ -3,6 +3,7 @@
 const express = require('express');
 const app = express();
 const bodyParser = require("body-parser");
+const cors = require('cors');
 const port = process.env.PORT || 8080; // set in package.json to 3100. I don't know why 8080 is here'
 const mainRouter = require('./routes/main')
 const userRouter = require('./routes/user')
@@ -14,6 +15,7 @@ console.log(`Node version: ${process.version}`)
 // https://www.digitalocean.com/community/tutorials/use-expressjs-to-get-url-and-post-parameters
 app.use(bodyParser.urlencoded({ extended: true }));  // support encoded bodies
 app.use(bodyParser.json());  // support json encoded bodies
+app.use(cors());
 
 // middleware that is specific to this router
 app.use(function timeLog (req, res, next) {
